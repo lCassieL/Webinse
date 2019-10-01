@@ -1,6 +1,7 @@
 deletePerson();
 addPerson();
 openEditPersonForm();
+editPerson();
 
 function deletePerson(){
 $("form.delete").submit(function () {
@@ -36,7 +37,6 @@ function addPerson(){
                 $("table").empty();
                 getPersons();
             }
-            ;
     
         };
         xhr.send(body);
@@ -44,37 +44,54 @@ function addPerson(){
     });
 
 }
-//TODO:
+
 function openEditPersonForm(){
     $("form.update").submit(function(){
         var id = $(this).find('input[type="hidden"]').val();
         $('div#modalWindow').css('display', 'block');
         $('form.edit').append('<input type="hidden" value="'+id+'">');
+        // $('form.edit input[name="name"]').val('blabla');
+        var xhr = new XMLHttpRequest();
+        var body = 'id=' + encodeURIComponent(id);
+        xhr.open("POST", location.origin + '/main/person', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = xhr.responseText;
+                var person = JSON.parse(json);
+                $('form.edit input[name="name"]').val(person[0].name);
+                $('form.edit input[name="surname"]').val(person[0].surname);
+                $('form.edit input[type="email"]').val(person[0].email);
+            }
+        };
+        xhr.send(body);
         return false;
-    });
+    });    
 }
-//TODO:
-function editPereson(){
-    $("form.add").submit(function () {
+
+function editPerson(){
+    $("form.edit").submit(function () {
 	    var name = $(this).find('input[name="name"]').val();
 	    var surname = $(this).find('input[name="surname"]').val();
-	    var email = $(this).find('input[type="email"]').val();
+        var email = $(this).find('input[type="email"]').val();
+        var id = $(this).find('input[type="hidden"]').val();
         var xhr = new XMLHttpRequest();
-        var body = 'name=' + encodeURIComponent(name) + '&surname=' + encodeURIComponent(surname) + '&email=' + encodeURIComponent(email);
-        xhr.open("POST", location.origin + '/main/add', true);
+        var body = 'name=' + encodeURIComponent(name) + '&surname=' + encodeURIComponent(surname) + '&email=' + encodeURIComponent(email) + '&id=' + encodeURIComponent(id);
+        xhr.open("POST", location.origin + '/main/edit', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 $("table").empty();
                 getPersons();
+                $('div#modalWindow').css('display', 'none');
             }
-            ;
     
         };
         xhr.send(body);
         return false;
     });
 }
+
 function getPersons() {
 var xhr = new XMLHttpRequest();
 xhr.open('GET', location.origin + '/main/information');
@@ -97,6 +114,7 @@ xhr.onreadystatechange = function () {
      '<td>'+person.email+'</td>'+
      '<td>'+
          '<form class="update" method="post">'+
+            '<input type="hidden" value="'+ person.id + '">'+
             '<input type="submit" value="update">'+
          '</form>'+
      '</td>'+
@@ -112,6 +130,8 @@ xhr.onreadystatechange = function () {
     var container = document.getElementsByClassName('showList')[0];
     container.innerHTML = content;
     deletePerson();
+    openEditPersonForm();
+    editPerson();
         }
     }
 };

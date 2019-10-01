@@ -14,6 +14,18 @@ class MainModel extends Model{
         }
     }
 
+    public function getPerson($id){
+        if($this->db->connect_errno === 0){
+            $query = 'select * from persons where id ='.$id;
+            $res = $this->db->query($query);
+            if($res){
+                return $res->fetch_all(MYSQLI_ASSOC);
+            } else{
+                return false;
+            }
+        }
+    }
+
     public function deletePerson($id){
         if($this->db->connect_errno === 0){
             $query = 'delete from persons where id ='.$id;
@@ -28,7 +40,7 @@ class MainModel extends Model{
         }
     }
 
-    public function updatePerson($id, $name, $surname, $email){
+    public function editPerson($id, $name, $surname, $email){
         if($this->db->connect_errno === 0){
             $query = 'update persons set name="'.$name.'", surname="'.$surname.'", email="'.$email.'" where id ='.$id;
             $this->db->query($query);

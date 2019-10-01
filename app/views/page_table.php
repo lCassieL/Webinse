@@ -1,9 +1,12 @@
-<table class="showList">
+<table class="showList table table-striped">
+    <thead>
     <tr>
         <th>Name</th>
         <th>Surname</th>
         <th>Email</th>
     </tr>
+    </thead>
+    <tbody>
     <?php 
     foreach($this->persons as $person){
     ?>
@@ -29,6 +32,7 @@
     <?php    
     }
     ?>
+    </tbody>
 </table>
 
 <div id="modalWindow">
@@ -41,14 +45,17 @@
 </div>
 
 <form class="add" method="post">
-    <label>Name:
-        <input type="text" name="name">
-    </label>
-    <label>Surname:
-        <input type="text" name="surname">
-    </label>
-    <label>Email:
-        <input type="email" name="email">
-    </label>
-    <input type="submit" value="enter">
+<div class="form-group">
+    <label for="name1">Name:</label>
+    <input type="text" name="name" class="form-control" id="name1">
+</div>
+<div class="form-group">
+    <label for="surname1">Surname:</label>
+    <input type="text" name="surname" class="form-control" id="surname1">
+</div>
+<div class="form-group">
+    <label for="email1">Email:</label>
+    <input type="email" name="email" class="form-control" id="email1">
+</div>
+    <input type="submit" class="btn btn-primary" value="enter">
 </form>

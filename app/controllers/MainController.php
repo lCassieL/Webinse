@@ -20,19 +20,30 @@ class MainController extends Controller{
         $email = $_POST['email'];
         $this->model = new MainModel();
         $this->model->addPerson($name, $surname, $email);
-        header('Location: ' . '/main/index');
     }
 
-    public function action_update(){
+    public function action_edit(){
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $email = $_POST['email'];
+        $id = $_POST['id'];
         $this->model = new MainModel();
-        $this->model->updatePerson($id, $name, $surname, $email);
-        header('Location: ' . '/main/index');
+        $this->model->editPerson($id, $name, $surname, $email);
     }
 
     public function action_information(){
         $this->model = new MainModel();
         $persons = $this->model->getPersons();
         $json = json_encode($persons);
+        header('Content-type: application/json; charset=utf-8');
+        echo $json;
+    }
+
+    public function action_person(){
+        $id = $_POST['id'];
+        $this->model = new MainModel();
+        $person = $this->model->getPerson($id);
+        $json = json_encode($person);
         header('Content-type: application/json; charset=utf-8');
         echo $json;
     }
