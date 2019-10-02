@@ -106,6 +106,8 @@ xhr.onreadystatechange = function () {
         '<th>Name</th>'+
         '<th>Surname</th>'+
         '<th>Email</th>'+
+        '<th></th>'+
+        '<th></th>'+
     '</tr>'; 
     $(persons).each(function (i, person) {
         content += '<tr>'+
@@ -115,13 +117,13 @@ xhr.onreadystatechange = function () {
      '<td>'+
          '<form class="update" method="post">'+
             '<input type="hidden" value="'+ person.id + '">'+
-            '<input type="submit" value="update">'+
+            '<input type="submit" class="btn btn-warning" value="update">'+
          '</form>'+
      '</td>'+
      '<td>'+
          '<form class="delete" method="post">'+
             '<input type="hidden" value="'+ person.id + '">'+
-            '<input type="submit" value="delete">'+
+            '<input type="submit" class="btn btn-warning" value="delete">'+
          '</form>'+
      '</td>'+
     '</tr>';
